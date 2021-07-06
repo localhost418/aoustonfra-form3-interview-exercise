@@ -1,15 +1,12 @@
 SCRIPTS:=scripts/make
 
-all: lint generate_models unit_tests
+all: generate_models tests
 
 generate_models:
 	@$(SCRIPTS)/generate_models.sh swagger/form3-swagger.yaml ./generated
 
-lint:
-	@$(SCRIPTS)/lint.sh .
-
-unit_tests:
-	@$(SCRIPTS)/test.sh pkg -cover -v
-
-integration_tests:
-	@$(SCRIPTS)/test.sh it -v
+tests:
+	golint -set_exit_status ./...
+	go vet ./...
+	go fmt ./...
+	go test -race ./... -count=1 -cover -v
