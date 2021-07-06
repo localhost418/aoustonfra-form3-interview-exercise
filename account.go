@@ -1,4 +1,4 @@
-package account
+package accountclient
 
 import (
 	"bytes"
@@ -8,7 +8,7 @@ import (
 	"path"
 	"strconv"
 
-	"github.com/localhost418/aoustonfra-form3-interview-exercise/account/types"
+	"github.com/localhost418/accountclient/types"
 )
 
 const (
@@ -59,7 +59,7 @@ func (c *Client) CreateAccount(req *types.CreateAccountRequest) (*types.CreateAc
 	defer w.Body.Close()
 
 	if w.StatusCode != http.StatusCreated {
-		return nil, fail(method, accountsAPIPath, ErrAPIFailure)
+		return nil, failWithStatusCode(method, accountsAPIPath, w.StatusCode, ErrAPIFailure)
 	}
 	res := &types.CreateAccountResponse{}
 	_, err = res.ReadFrom(w.Body)
@@ -89,13 +89,14 @@ func (c *Client) FetchAccount(req *types.FetchAccountRequest) (*types.FetchAccou
 	defer w.Body.Close()
 
 	if w.StatusCode != http.StatusOK {
-		return nil, fail(method, accountsAPIPath, ErrAPIFailure)
+		return nil, failWithStatusCode(method, accountsAPIPath, w.StatusCode, ErrAPIFailure)
 	}
 	res := &types.FetchAccountResponse{}
 	_, err = res.ReadFrom(w.Body)
 	if err != nil {
 		return nil, fail(method, accountsAPIPath, ErrInvalidResponse)
 	}
+
 	return res, nil
 }
 
@@ -123,8 +124,9 @@ func (c *Client) DeleteAccount(req *types.DeleteAccountRequest) (*types.DeleteAc
 	defer w.Body.Close()
 
 	if w.StatusCode != http.StatusNoContent {
-		return nil, fail(method, accountsAPIPath, ErrAPIFailure)
+		return nil, failWithStatusCode(method, accountsAPIPath, w.StatusCode, ErrAPIFailure)
 	}
+	// if http.StatusNoContent response is OK
 	return &types.DeleteAccountResponse{}, nil
 }
 
@@ -140,4 +142,8 @@ func buildURL(url url.URL, paths []string) string {
 // generic error formating
 func fail(method, endpoint string, err Error) error {
 	return fmt.Errorf("'%s %s': %w", method, endpoint, err)
+}
+
+func failWithStatusCode(method, endpoint string, statusCode int, err Error) error {
+	return fmt.Errorf("'%s %s' [%d]: %w", method, endpoint, statusCode, err)
 }

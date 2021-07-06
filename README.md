@@ -7,33 +7,13 @@ https://github.com/form3tech-oss/interview-accountapi
 
  It implements the `CREATE`, `FETCH` and `DELETE` operation. 
  
- I'm not very comfortable with http clients and testing in go since I didn't do much of it in my previous working experiences.
-
 # Run the tests
 
 As requested you can use
 ```
 docker-compose up
 ```
- to build everything and run both unit and integration tests.
-
-It will run unit tests and integration tests on two separate containers.
-   
-You can get the unit tests output using:
-```
-docker-compose logs accountapiclient_unit_tests
-```
-
-And the integration tests output using:
-```
-docker-compose logs accountapiclient_integration_tests
-```
-
-I would recommand running 
-```
-docker-compose build
-```
-first because the build is quite long due to the generation of Account model using the swagger file for form3 whole API.
+ to build the Dockerfile and run both unit and integration tests.
 
 # Technical decisions
 
@@ -78,20 +58,14 @@ go get -u github.com/go-swagger/go-swagger/cmd/swagger
 make generate_models
 ```
 
-## Run the unit tests
-
-```
-make unit_tests
-```
-
 ## Run the fake API container
 
 ```
 docker-compose up -d accountapi
 ```
 
-#### Run the integration tests
+## Run the tests
 
 ```
-make integration_tests
+make tests
 ```

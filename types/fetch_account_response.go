@@ -1,9 +1,10 @@
-package accountclient
+package types
 
 import (
 	"encoding/json"
+	"io"
 
-	"github.com/localhost418/aoustonfra-form3-interview-exercise/generated/models"
+	"github.com/localhost418/accountclient/generated/models"
 )
 
 /*
@@ -40,15 +41,7 @@ type FetchAccountResponse struct {
 	Links *AccountCreationResponseLinks `json:"links,omitempty"`
 }
 
-// ParseFetchAccountResponse unmarshals the given payload to a FetchAccountResponse struct
-func ParseFetchAccountResponse(payload []byte) (*FetchAccountResponse, error) {
-	response := &FetchAccountResponse{
-		Data:  &models.Account{},
-		Links: &AccountCreationResponseLinks{},
-	}
-	err := json.Unmarshal(payload, response)
-	if err != nil {
-		return nil, err
-	}
-	return response, nil
+// ReadFrom implements io.ReaderFrom using JSON
+func (c *FetchAccountResponse) ReadFrom(r io.Reader) (int64, error) {
+	return 0, json.NewDecoder(r).Decode(c)
 }

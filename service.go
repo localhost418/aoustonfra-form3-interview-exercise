@@ -1,6 +1,6 @@
-package account
+package accountclient
 
-import "github.com/localhost418/aoustonfra-form3-interview-exercise/account/types"
+import "github.com/localhost418/accountclient/types"
 
 // Service is the interface for Account ressource operations
 type Service interface {

@@ -1,4 +1,4 @@
-package account
+package accountclient
 
 // Error for account errors
 type Error string
@@ -11,18 +11,18 @@ const (
 	// ErrNoRequest on missing request
 	ErrNoRequest = Error("no request provided")
 
-	// ErrInvalidBody
+	// ErrInvalidBody on invalid request body
 	ErrInvalidBody = Error("invalid request body")
 
-	// ErrInvalidRequest
+	// ErrInvalidRequest on invalid request
 	ErrInvalidRequest = Error("invalid request")
 
-	// ErrDoRequest
+	// ErrDoRequest on request failed
 	ErrDoRequest = Error("request failed")
 
-	// ErrAPIFailure
+	// ErrAPIFailure on API failure
 	ErrAPIFailure = Error("api failure")
 
-	// ErrInvalidResponse
+	// ErrInvalidResponse on invalid response
 	ErrInvalidResponse = Error("invalid response")
 )

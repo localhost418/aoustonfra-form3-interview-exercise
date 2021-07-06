@@ -1,12 +1,14 @@
-SCRIPTS:=scripts/make
-
-all: generate_models tests
+all: lint generate_models tests
 
 generate_models:
-	@$(SCRIPTS)/generate_models.sh swagger/form3-swagger.yaml ./generated
+	rm -rf generated
+	rm -rf generated
+	swagger generate model --with-flatten expand --skip-validation -f swagger/form3-swagger.yaml -t generated -n Account
 
-tests:
+lint:
 	golint -set_exit_status ./...
 	go vet ./...
 	go fmt ./...
+
+tests:
 	go test -race ./... -count=1 -cover -v
