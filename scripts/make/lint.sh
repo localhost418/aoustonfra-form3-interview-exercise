@@ -2,9 +2,5 @@
 
 #USAGE: ./lint.sh <folder_to_lint>
 
-output=$(golint $1/...)
+golint $1/... -set_exit_status
 
-if [ ! -z "$output" ]; then
-  echo $output
-  exit 1
-fi
